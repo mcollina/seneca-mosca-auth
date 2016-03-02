@@ -10,17 +10,20 @@
   "devDependencies": {
     "code": "^2.1.0",
     "eslint-config-seneca": "^1.1.2",
-    "lab": "^10.1.0",
+    "eslint-plugin-hapi": "^4.0.0",
+    "eslint-plugin-standard": "^1.3.2",
+    "lab": "6.2.0",
     "mosca": "^1.1.2",
     "mqtt": "^1.7.3",
     "pre-commit": "^1.1.2",
     "seneca": "^1.3.0"
   },
   "scripts": {
-    "test": "lab -P test -r console -v -m 3000 -t 76",
-    "lint": "lab -dL"
+    "test": "lab -dL && lab -P test -r console -v -m 3000 -t 76"
   },
-  "precommit": ["test"],
+  "precommit": [
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mcollina/seneca-mosca-auth.git"
