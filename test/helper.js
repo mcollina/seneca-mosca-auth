@@ -15,11 +15,12 @@ module.exports.createServer = function (cb) {
     MoscaAuth.setup(seneca, server)
 
     seneca.act({
-      role: 'mosca-user',
+      role: 'mosca-auth',
       cmd: 'register',
       nick: 'mydevice',
       email: 'matteo.collina@nearform.com',
-      password: 'mypassword'
+      password: 'mypassword',
+      publishPatterns: ['hello', 'a/#', 'b/+']
     }, function (err) {
       cb(err, server, seneca)
     })

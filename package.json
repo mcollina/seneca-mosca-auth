@@ -4,6 +4,7 @@
   "description": "Authentication and Authorization for Mosca using Seneca and Seneca User",
   "main": "mosca-auth.js",
   "dependencies": {
+    "qlobber": "^0.5.3",
     "seneca-user": "^1.0.0"
   },
   "devDependencies": {

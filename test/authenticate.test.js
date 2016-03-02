@@ -1,7 +1,6 @@
 'use strict'
 
 var Mqtt = require('mqtt')
-var moscaAuth = require('../')
 
 var Helper = require('./helper')
 var Lab = require('lab')
@@ -40,6 +39,8 @@ suite('authenticate', function () {
 
     client.on('connect', function () {
       client.end()
+      client.removeAllListeners('error')
+      client.on('error', noop)
       done()
     })
   })
@@ -52,6 +53,8 @@ suite('authenticate', function () {
     client.on('error', function () {
       // error expected
       done()
+      client.removeAllListeners('error')
+      client.on('error', noop)
     })
   })
 
@@ -63,6 +66,8 @@ suite('authenticate', function () {
     client.on('error', function () {
       // error expected
       done()
+      client.removeAllListeners('error')
+      client.on('error', noop)
     })
   })
 
@@ -75,6 +80,10 @@ suite('authenticate', function () {
     client.on('error', function () {
       // error expected
       done()
+      client.removeAllListeners('error')
+      client.on('error', noop)
     })
   })
 })
+
+function noop () {}
