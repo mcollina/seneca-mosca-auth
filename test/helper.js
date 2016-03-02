@@ -1,7 +1,7 @@
 'use strict'
 
 var Seneca = require('seneca')
-var Mosca = require('Mosca')
+var Mosca = require('mosca')
 var MoscaAuth = require('../')
 
 module.exports.createServer = function (cb) {
