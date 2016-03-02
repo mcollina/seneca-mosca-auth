@@ -4,23 +4,18 @@ var Mqtt = require('mqtt')
 
 var Helper = require('./helper')
 var Lab = require('lab')
-var Code = require('code')
 var lab = exports.lab = Lab.script()
 var suite = lab.suite
 var test = lab.test
 var before = lab.before
 var after = lab.after
-var expect = Code.expect
 
 suite('authenticate', () => {
-
-  var server;
-  var seneca;
+  var server
 
   before((cb) => {
     Helper.createServer((err, a, b) => {
       server = a
-      seneca = b
       cb(err)
     })
   })

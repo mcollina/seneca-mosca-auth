@@ -13,14 +13,11 @@ var after = lab.after
 var expect = Code.expect
 
 suite('authorizeSubscribe', () => {
-
-  var server;
-  var seneca;
+  var server
 
   before((cb) => {
     Helper.createServer((err, a, b) => {
       server = a
-      seneca = b
       cb(err)
     })
   })
@@ -36,6 +33,9 @@ suite('authorizeSubscribe', () => {
     })
 
     client.subscribe('hello', (err, granted) => {
+      if (err) {
+        return done(err)
+      }
       expect(granted).to.deep.equal([{
         topic: 'hello',
         qos: 0
@@ -53,6 +53,9 @@ suite('authorizeSubscribe', () => {
     })
 
     client.subscribe('wrong', (err, granted) => {
+      if (err) {
+        return done(err)
+      }
       expect(granted).to.deep.equal([{
         topic: 'wrong',
         qos: 128
@@ -70,6 +73,9 @@ suite('authorizeSubscribe', () => {
     })
 
     client.subscribe('a/#', (err, granted) => {
+      if (err) {
+        return done(err)
+      }
       expect(granted).to.deep.equal([{
         topic: 'a/#',
         qos: 0
@@ -87,6 +93,9 @@ suite('authorizeSubscribe', () => {
     })
 
     client.subscribe('a/b', (err, granted) => {
+      if (err) {
+        return done(err)
+      }
       expect(granted).to.deep.equal([{
         topic: 'a/b',
         qos: 0
@@ -97,5 +106,3 @@ suite('authorizeSubscribe', () => {
     client.on('error', done)
   })
 })
-
-function noop () {}
