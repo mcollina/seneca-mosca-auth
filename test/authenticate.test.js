@@ -12,24 +12,24 @@ var before = lab.before
 var after = lab.after
 var expect = Code.expect
 
-suite('authenticate', function () {
+suite('authenticate', () => {
 
   var server;
   var seneca;
 
-  before(function (cb) {
-    Helper.createServer(function (err, a, b) {
+  before((cb) => {
+    Helper.createServer((err, a, b) => {
       server = a
       seneca = b
       cb(err)
     })
   })
 
-  after(function (cb) {
+  after((cb) => {
     server.close(cb)
   })
 
-  test('successful', function (done) {
+  test('successful', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
@@ -37,7 +37,7 @@ suite('authenticate', function () {
 
     client.on('error', done)
 
-    client.on('connect', function () {
+    client.on('connect', () => {
       client.end()
       client.removeAllListeners('error')
       client.on('error', noop)
@@ -45,12 +45,12 @@ suite('authenticate', function () {
     })
   })
 
-  test('missing user', function (done) {
+  test('missing user', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       password: 'mypassword'
     })
 
-    client.on('error', function () {
+    client.on('error', () => {
       // error expected
       done()
       client.removeAllListeners('error')
@@ -58,12 +58,12 @@ suite('authenticate', function () {
     })
   })
 
-  test('missing password', function (done) {
+  test('missing password', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice'
     })
 
-    client.on('error', function () {
+    client.on('error', () => {
       // error expected
       done()
       client.removeAllListeners('error')
@@ -71,13 +71,13 @@ suite('authenticate', function () {
     })
   })
 
-  test('wrong password', function (done) {
+  test('wrong password', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'wrong'
     })
 
-    client.on('error', function () {
+    client.on('error', () => {
       // error expected
       done()
       client.removeAllListeners('error')

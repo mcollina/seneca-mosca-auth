@@ -12,30 +12,30 @@ var before = lab.before
 var after = lab.after
 var expect = Code.expect
 
-suite('authorizeSubscribe', function () {
+suite('authorizeSubscribe', () => {
 
   var server;
   var seneca;
 
-  before(function (cb) {
-    Helper.createServer(function (err, a, b) {
+  before((cb) => {
+    Helper.createServer((err, a, b) => {
       server = a
       seneca = b
       cb(err)
     })
   })
 
-  after(function (cb) {
+  after((cb) => {
     server.close(cb)
   })
 
-  test('authorized', function (done) {
+  test('authorized', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    client.subscribe('hello', function (err, granted) {
+    client.subscribe('hello', (err, granted) => {
       expect(granted).to.deep.equal([{
         topic: 'hello',
         qos: 0
@@ -46,13 +46,13 @@ suite('authorizeSubscribe', function () {
     client.on('error', done)
   })
 
-  test('negated', function (done) {
+  test('negated', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    client.subscribe('wrong', function (err, granted) {
+    client.subscribe('wrong', (err, granted) => {
       expect(granted).to.deep.equal([{
         topic: 'wrong',
         qos: 128
@@ -63,13 +63,13 @@ suite('authorizeSubscribe', function () {
     client.on('error', done)
   })
 
-  test('successful with #', function (done) {
+  test('successful with #', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    client.subscribe('a/#', function (err, granted) {
+    client.subscribe('a/#', (err, granted) => {
       expect(granted).to.deep.equal([{
         topic: 'a/#',
         qos: 0
@@ -80,13 +80,13 @@ suite('authorizeSubscribe', function () {
     client.on('error', done)
   })
 
-  test('successful with # bis', function (done) {
+  test('successful with # bis', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    client.subscribe('a/b', function (err, granted) {
+    client.subscribe('a/b', (err, granted) => {
       expect(granted).to.deep.equal([{
         topic: 'a/b',
         qos: 0

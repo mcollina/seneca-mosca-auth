@@ -12,30 +12,30 @@ var before = lab.before
 var after = lab.after
 var expect = Code.expect
 
-suite('authorizePublish', function () {
+suite('authorizePublish', () => {
 
   var server;
   var seneca;
 
-  before(function (cb) {
-    Helper.createServer(function (err, a, b) {
+  before((cb) => {
+    Helper.createServer((err, a, b) => {
       server = a
       seneca = b
       cb(err)
     })
   })
 
-  after(function (cb) {
+  after((cb) => {
     server.close(cb)
   })
 
-  test('authorized', function (done) {
+  test('authorized', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    server.on('published', function (packet) {
+    server.on('published', (packet) => {
       var topic = packet.topic
       var payload = packet.payload
       if (topic === 'hello' && payload.toString() === 'world') {
@@ -47,13 +47,13 @@ suite('authorizePublish', function () {
     client.on('error', done)
   })
 
-  test('authorized #', function (done) {
+  test('authorized #', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    server.on('published', function (packet) {
+    server.on('published', (packet) => {
       var topic = packet.topic
       var payload = packet.payload
       if (topic === 'a/b/c' && payload.toString() === 'world') {
@@ -65,13 +65,13 @@ suite('authorizePublish', function () {
     client.on('error', done)
   })
 
-  test('authorized +', function (done) {
+  test('authorized +', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    server.on('published', function (packet) {
+    server.on('published', (packet) => {
       var topic = packet.topic
       var payload = packet.payload
       if (topic === 'b/c' && payload.toString() === 'world') {
@@ -83,13 +83,13 @@ suite('authorizePublish', function () {
     client.on('error', done)
   })
 
-  test('negated', function (done) {
+  test('negated', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    server.on('published', function (packet) {
+    server.on('published', (packet) => {
       var topic = packet.topic
       var payload = packet.payload
       if (topic === 'wrong' && payload.toString() === 'world') {
@@ -101,7 +101,7 @@ suite('authorizePublish', function () {
 
     client.publish('wrong', 'world')
     client.on('error', done)
-    client.on('offline', function () {
+    client.on('offline', () => {
       client.end()
       client.removeAllListeners('error')
       client.on('error', noop)
@@ -109,13 +109,13 @@ suite('authorizePublish', function () {
     })
   })
 
-  test('negated +', function (done) {
+  test('negated +', (done) => {
     var client = Mqtt.connect('mqtt://localhost', {
       username: 'mydevice',
       password: 'mypassword'
     })
 
-    server.on('published', function (packet) {
+    server.on('published', (packet) => {
       var topic = packet.topic
       var payload = packet.payload
       if (topic === 'b/c/d' && payload.toString() === 'world') {

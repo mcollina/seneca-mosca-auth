@@ -1,9 +1,9 @@
 'use strict'
 
-var SenecaUser = require('seneca-user')
-var Qlobber = require('qlobber').Qlobber
+const SenecaUser = require('seneca-user')
+const Qlobber = require('qlobber').Qlobber
 
-var defaults = {
+const defaults = {
   role: 'mosca-auth',
   user: {
     fields: {
@@ -13,37 +13,21 @@ var defaults = {
   }
 }
 
-var qlobberDefaults = {
+const qlobberDefaults = {
   separator: '/',
   wildcard_one: '+',
   wildcard_some: '#'
 }
 
 module.exports = function (opts) {
-
-  var seneca = this
-
+  const seneca = this
   opts = seneca.util.deepextend(defaults, opts)
-
-  var role = opts.role
-
   seneca.use(SenecaUser, opts)
-
-  //seneca.add({
-  //  role: role,
-  //  cmd: 'publish-patterns'
-  //}, function (args, cb) {
-  //  var seneca = this
-  //  var deviceent = seneca.make(deviceCanon)
-  //  var device = deviceent.make$()
-
-  //  cb()
-  //})
 }
 
 module.exports.setup = function (seneca, server, opts) {
   opts = opts || {}
-  var role = opts.role || defaults.role
+  const role = opts.role || defaults.role
   server.authenticate = function authenticate (client, user, pass, cb) {
     if (!user || !pass) {
       cb(null, false)
@@ -60,7 +44,7 @@ module.exports.setup = function (seneca, server, opts) {
         cb(err)
         return
       }
-      var user = out.user
+      const user = out.user
       if (user) {
         client.publishPatterns = new Qlobber(qlobberDefaults)
         ;(user.publishPatterns || []).forEach(addPattern, client.publishPatterns)
@@ -77,7 +61,7 @@ module.exports.setup = function (seneca, server, opts) {
   }
 
   server.authorizeSubscribe = function authorizeSubscribe (client, topic, cb) {
-    cb(null, client.publishPatterns.match(topic).length > 0)
+    cb(null, client.subscribePatterns.match(topic).length > 0)
   }
 }
 
