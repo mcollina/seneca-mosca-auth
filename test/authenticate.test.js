@@ -1,10 +1,9 @@
 'use strict'
 
-var Seneca = require('seneca')
-var Mosca = require('Mosca')
 var Mqtt = require('mqtt')
 var moscaAuth = require('../')
 
+var Helper = require('./helper')
 var Lab = require('lab')
 var Code = require('code')
 var lab = exports.lab = Lab.script()
@@ -20,20 +19,10 @@ suite('authenticate', function () {
   var seneca;
 
   before(function (cb) {
-    seneca = Seneca()
-    seneca.use('../mosca-auth')
-    server = new Mosca.Server({}, function (err) {
-      if (err) { return cb(err) }
-
-      moscaAuth.setup(seneca, server)
-
-      seneca.act({
-        role: 'mosca-user',
-        cmd: 'register',
-        nick: 'mydevice',
-        email: 'matteo.collina@nearform.com',
-        password: 'mypassword'
-      }, cb)
+    Helper.createServer(function (err, a, b) {
+      server = a
+      seneca = b
+      cb(err)
     })
   })
 
